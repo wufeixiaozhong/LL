@@ -57,10 +57,18 @@ export default {
     }
   },
   methods: {
+    // 点击登录
     login () {
-      this.$refs.formObj.validate(function (isOk) {
+      this.$refs.formObj.validate(isOk => {
         if (isOk) {
-
+          this.$axios({
+            url: '/authorizations',
+            data: this.loginForm,
+            method: 'post'
+          }).then(res => {
+            // 本地存储token
+            window.localStorage.setItem('user-token', res.data.data.token)
+          })
         }
       })
     }
