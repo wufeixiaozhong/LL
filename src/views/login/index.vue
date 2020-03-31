@@ -5,7 +5,7 @@
         <img src="../../assets/img/logo_index.png" alt="">
         </div>
               <!-- 表单 -->
-    <el-form :model='loginForm' :rules='ruleForm'>
+    <el-form :model='loginForm' :rules='ruleForm' ref="formObj">
       <!-- 手机号 -->
       <el-form-item prop='mobile'>
         <el-input placeholder="请输入手机号" v-model="loginForm.mobile"></el-input>
@@ -21,7 +21,7 @@
       </el-form-item>
       <!-- 登录按钮 -->
       <el-form-item>
-        <el-button type="primary" style="width:100%">登录</el-button>
+        <el-button type="primary" style="width:100%" @click="login">登录</el-button>
       </el-form-item>
     </el-form>
       </el-card>
@@ -54,6 +54,15 @@ export default {
           }
         }]
       }
+    }
+  },
+  methods: {
+    login () {
+      this.$refs.formObj.validate(function (isOk) {
+        if (isOk) {
+
+        }
+      })
     }
   }
 }
