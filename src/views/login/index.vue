@@ -59,6 +59,7 @@ export default {
   methods: {
     // 点击登录
     login () {
+      // 手动校验(手动校验通过后才允许发请求)
       this.$refs.formObj.validate(isOk => {
         if (isOk) {
           this.$axios({
@@ -68,6 +69,14 @@ export default {
           }).then(res => {
             // 本地存储token
             window.localStorage.setItem('user-token', res.data.data.token)
+            // 跳转到首页
+            this.$router.push('/home')
+          }).catch(() => {
+            // 登录失败提示
+            this.$message({
+              type: 'warning',
+              message: '手机号或验证码错误'
+            })
           })
         }
       })
