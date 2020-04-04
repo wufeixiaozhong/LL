@@ -70,7 +70,7 @@ export default {
             // 本地存储token
             window.localStorage.setItem('user-token', res.data.data.token)
             // 跳转到首页
-            this.$router.push('/home')
+            this.$router.push('/')
           }).catch(() => {
             // 登录失败提示
             this.$message({
