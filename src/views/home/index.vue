@@ -31,7 +31,9 @@
       <!-- 右侧大容器 -->
       <el-container>
         <!-- 顶栏容器 -->
-        <el-header>顶栏</el-header>
+        <el-header>
+          <layout-header></layout-header>
+        </el-header>
         <!-- 主要区域容器 -->
         <el-main>
           主要内容
@@ -43,10 +45,11 @@
 </template>
 
 <script>
+import header from '../../components/header'
 export default {
   name: 'Home',
   components: {
-
+    'layout-header': header
   }
 }
 </script>
