@@ -58,4 +58,20 @@ const router = new VueRouter({
   routes
 })
 
+// 设置页面访问权限(路由拦截器)
+router.beforeEach((to, from, next) => {
+  // 访问所有页面都要经过这里
+  if (to.path === '/login') {
+    next()
+    // 停止代码往下执行
+    return
+  }
+  const token = window.localStorage.getItem('user-token')
+  if (token) {
+    next()
+  } else {
+    next('/login')
+  }
+})
+
 export default router
