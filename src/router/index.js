@@ -7,6 +7,7 @@ import Article from '@/views/article'
 import Publish from '@/views/publish'
 import Comment from '@/views/comment'
 import Material from '@/views/material'
+import Nprogress from 'nprogress'
 Vue.use(VueRouter)
 
 const routes = [
@@ -58,9 +59,11 @@ const router = new VueRouter({
   routes
 })
 
-// 设置页面访问权限(路由拦截器)
+// 设置页面访问权限
+// (路由前置守卫)
 router.beforeEach((to, from, next) => {
   // 访问所有页面都要经过这里
+  Nprogress.start() // 开启进度条
   if (to.path === '/login') {
     next()
     // 停止代码往下执行
@@ -72,6 +75,10 @@ router.beforeEach((to, from, next) => {
   } else {
     next('/login')
   }
+})
+// 路由后置守卫
+router.afterEach((to, from) => {
+  Nprogress.done() // 关闭进度条
 })
 
 export default router
