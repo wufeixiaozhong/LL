@@ -48,26 +48,36 @@
       :data="tableData"
       style="width: 100%">
       <el-table-column
-        prop="date"
+        prop="cover"
         label="封面"
         width="180">
+        <template slot-scope="scope">
+<img :src="scope.row.cover.images[0]" alt="" width="50">
+        </template>
       </el-table-column>
       <el-table-column
-        prop="name"
+        prop="title"
         label="标题"
         width="180">
       </el-table-column>
       <el-table-column
-        prop="address"
+        prop="status"
         label="状态">
+        <template slot-scope="scope">
+<el-tag :type='articleStatus[scope.row.status].value'>{{articleStatus[scope.row.status].label}}</el-tag>
+        </template>
       </el-table-column>
       <el-table-column
-        prop="address"
+        prop="pubdate"
         label="发布日期">
       </el-table-column>
       <el-table-column
         prop="address"
         label="操作">
+        <template>
+           <el-button type="primary" icon="el-icon-edit" circle></el-button>
+           <el-button type="danger" icon="el-icon-delete" circle></el-button>
+        </template>
       </el-table-column>
     </el-table>
   </div>
@@ -89,24 +99,46 @@ export default {
         end_pubdate: '' // 截至时间
       },
       rangedate: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }]
+      tableData: [], // 文章列表数据
+      articleStatus: [
+        {
+          value: '',
+          label: '草稿'
+        },
+        {
+          value: 'info',
+          label: '待审核'
+        },
+        {
+          value: 'success',
+          label: '审核通过'
+        },
+        {
+          value: 'warning',
+          label: '审核失败'
+        },
+        {
+          value: 'danger',
+          label: '已删除'
+        }
+      ] // 文章状态
     }
+  },
+  created () {
+    const token = window.localStorage.getItem('user-token')
+    // 获取文章列表
+    this.$axios({
+      method: 'get',
+      url: '/articles',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then(res => {
+      console.log(res, '请求成功！')
+      this.tableData = res.data.data.results
+    }).catch(err => {
+      console.log(err, '请求失败！')
+    })
   }
 }
 </script>
