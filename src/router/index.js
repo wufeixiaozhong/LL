@@ -74,6 +74,8 @@ router.beforeEach((to, from, next) => {
     next()
   } else {
     next('/login')
+    // 如果在登录页的非登录状态访问其他页面需要手动关闭进度条
+    Nprogress.done() // 关闭进度条
   }
 })
 // 路由后置守卫
