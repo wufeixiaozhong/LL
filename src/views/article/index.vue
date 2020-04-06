@@ -38,7 +38,41 @@
   </div>
     <!-- 筛选表单 -->
 </el-card>
-
+<!-- 文章列表 -->
+<el-card class="box-card">
+  <div slot="header" class="clearfix">
+    <span>总共找到56999条信息</span>
+  </div>
+  <div class="table">
+    <el-table
+      :data="tableData"
+      style="width: 100%">
+      <el-table-column
+        prop="date"
+        label="封面"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="name"
+        label="标题"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="address"
+        label="状态">
+      </el-table-column>
+      <el-table-column
+        prop="address"
+        label="发布日期">
+      </el-table-column>
+      <el-table-column
+        prop="address"
+        label="操作">
+      </el-table-column>
+    </el-table>
+  </div>
+</el-card>
+  <!-- 文章列表 -->
   </div>
 </template>
 
@@ -54,7 +88,24 @@ export default {
         begin_pubdate: '', // 起始时间
         end_pubdate: '' // 截至时间
       },
-      rangedate: ''
+      rangedate: '',
+      tableData: [{
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }, {
+        date: '2016-05-04',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1517 弄'
+      }, {
+        date: '2016-05-01',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1519 弄'
+      }, {
+        date: '2016-05-03',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1516 弄'
+      }]
     }
   }
 }
