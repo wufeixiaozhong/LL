@@ -15,7 +15,7 @@
   <el-dropdown-menu slot="dropdown">
     <el-dropdown-item>账户信息</el-dropdown-item>
     <el-dropdown-item>git地址</el-dropdown-item>
-    <el-dropdown-item>推出</el-dropdown-item>
+    <el-dropdown-item @click.native="onlogout">推出</el-dropdown-item>
 
   </el-dropdown-menu>
 </el-dropdown>
@@ -26,6 +26,35 @@
 
 <script>
 export default {
+  name: 'header',
+  data () {
+    return {
+
+    }
+  },
+  methods: {
+    // 点击退出
+    onlogout () {
+      // 弹窗
+      this.$confirm('你确定要退出登录？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        window.localStorage.removeItem('user-token') // 删除token
+        this.$router.push('/login') // 跳转到登录页
+        this.$message({
+          type: 'success',
+          message: '退出成功!'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消退出！'
+        })
+      })
+    }
+  }
 
 }
 </script>
