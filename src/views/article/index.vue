@@ -83,6 +83,18 @@
   </div>
 </el-card>
   <!-- 文章列表 -->
+
+  <!-- 分页 -->
+  <div class="page">
+    <el-pagination
+    @current-change='onChangePage'
+      background
+      layout="prev, pager, next"
+      :total="1000">
+    </el-pagination>
+  </div>
+
+  <!-- 分页 -->
   </div>
 </template>
 
@@ -125,24 +137,41 @@ export default {
     }
   },
   created () {
-    const token = window.localStorage.getItem('user-token')
+    this.loadArticle()
+  },
+  methods: {
     // 获取文章列表
-    this.$axios({
-      method: 'get',
-      url: '/articles',
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).then(res => {
-      console.log(res, '请求成功！')
-      this.tableData = res.data.data.results
-    }).catch(err => {
-      console.log(err, '请求失败！')
-    })
+    loadArticle (page = 1) {
+      const token = window.localStorage.getItem('user-token')
+      this.$axios({
+        method: 'get',
+        url: '/articles',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        params: {
+          page
+          // per_page:
+        }
+      }).then(res => {
+        console.log(res, '请求成功！')
+        this.tableData = res.data.data.results
+      }).catch(err => {
+        console.log(err, '请求失败！')
+      })
+    },
+    // 点击分页
+    onChangePage (value) {
+      this.loadArticle(value)
+    }
+
   }
 }
 </script>
 
-<style>
-
+<style lang='less' scoped>
+.page{
+  text-align: center;
+  padding: 10px;
+}
 </style>
