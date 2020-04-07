@@ -9,7 +9,7 @@
 <el-form label-width="80px">
       <el-form-item label="文章状态">
     <el-radio-group v-model="filterForm.status">
-      <el-radio label="null">全部</el-radio>
+      <el-radio :label = 'null'>全部</el-radio>
       <el-radio label="0">草稿</el-radio>
       <el-radio label="1">待审核</el-radio>
       <el-radio label="2">审核通过</el-radio>
@@ -108,7 +108,7 @@ export default {
     return {
     // 筛选表单数据对象
       filterForm: {
-        status: 'null', // 状态
+        status: null, // 状态
         channel_id: '', // 频道id
         begin_pubdate: '', // 起始时间
         end_pubdate: '' // 截至时间
