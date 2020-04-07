@@ -19,8 +19,8 @@
       </el-form-item>
       <el-form-item label="频道列表">
         <el-select placeholder="请选择活动区域" v-model="filterForm.channel_id">
-          <el-option label="区域一" ></el-option>
-          <el-option label="区域二" ></el-option>
+          <el-option label='所有频道' :value='null'></el-option>
+          <el-option :label="channel.name" :value='channel.id' v-for='channel in channels' :key='channel.id'></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="时间选择">
@@ -109,7 +109,7 @@ export default {
     // 筛选表单数据对象
       filterForm: {
         status: null, // 状态
-        channel_id: '', // 频道id
+        channel_id: null, // 频道id
         begin_pubdate: '', // 起始时间
         end_pubdate: '' // 截至时间
       },
@@ -117,6 +117,7 @@ export default {
       tableData: [], // 文章列表默认返回数据
       total_count: '', // 文章列表总条数
       loading: true,
+      channels: [], // 频道列表数据
       articleStatus: [
         {
           value: '',
@@ -142,7 +143,10 @@ export default {
     }
   },
   created () {
+    // 获取文章列表数据
     this.loadArticle()
+    // 获取频道列表数据
+    this.loadChannels()
   },
   methods: {
     // 获取文章列表
@@ -157,7 +161,8 @@ export default {
         },
         params: {
           page,
-          status: this.filterForm.status
+          status: this.filterForm.status,
+          channel_id: this.filterForm.channel_id
           // per_page:
         }
       }).then(res => {
@@ -168,6 +173,17 @@ export default {
       }).catch(err => {
         console.log(err, '请求失败！')
         this.loading = false
+      })
+    },
+    loadChannels () {
+      this.$axios({
+        method: 'get',
+        url: '/channels'
+      }).then(res => {
+        console.log(res, '请求成功！')
+        this.channels = res.data.data.channels
+      }).catch(err => {
+        console.log(err, '请求失败！')
       })
     },
     // 点击分页
