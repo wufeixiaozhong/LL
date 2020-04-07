@@ -25,6 +25,7 @@
       </el-form-item>
       <el-form-item label="时间选择">
         <el-date-picker
+        value-format='yyyy-MM-dd'
       v-model="rangedate"
       type="daterange"
       range-separator="至"
@@ -162,7 +163,9 @@ export default {
         params: {
           page,
           status: this.filterForm.status,
-          channel_id: this.filterForm.channel_id
+          channel_id: this.filterForm.channel_id,
+          begin_pubdate: this.rangedate ? this.rangedate[0] : null,
+          end_pubdate: this.rangedate ? this.rangedate[1] : null
           // per_page:
         }
       }).then(res => {
