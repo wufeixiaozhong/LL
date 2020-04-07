@@ -9,11 +9,12 @@
 <el-form label-width="80px">
       <el-form-item label="文章状态">
     <el-radio-group v-model="filterForm.status">
-      <el-radio label="全部"></el-radio>
-      <el-radio label="草稿"></el-radio>
-      <el-radio label="待审核"></el-radio>
-      <el-radio label="审核通过"></el-radio>
-      <el-radio label="审核失败"></el-radio>
+      <el-radio label="null">全部</el-radio>
+      <el-radio label="0">草稿</el-radio>
+      <el-radio label="1">待审核</el-radio>
+      <el-radio label="2">审核通过</el-radio>
+      <el-radio label="3">审核失败</el-radio>
+      <el-radio label="4">已删除</el-radio>
     </el-radio-group>
       </el-form-item>
       <el-form-item label="频道列表">
@@ -32,7 +33,7 @@
     </el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary">查询</el-button>
+        <el-button type="primary" @click="loadArticle()">查询</el-button>
       </el-form-item>
 </el-form>
   </div>
@@ -107,7 +108,7 @@ export default {
     return {
     // 筛选表单数据对象
       filterForm: {
-        status: '', // 状态
+        status: 'null', // 状态
         channel_id: '', // 频道id
         begin_pubdate: '', // 起始时间
         end_pubdate: '' // 截至时间
@@ -155,7 +156,8 @@ export default {
           Authorization: `Bearer ${token}`
         },
         params: {
-          page
+          page,
+          status: this.filterForm.status
           // per_page:
         }
       }).then(res => {
