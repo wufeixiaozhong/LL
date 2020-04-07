@@ -41,10 +41,11 @@
 <!-- 文章列表 -->
 <el-card class="box-card">
   <div slot="header" class="clearfix">
-    <span>总共找到56999条信息</span>
+    <span>共找到{{total_count}}条符合条件的内容</span>
   </div>
   <div class="table">
     <el-table
+    v-loading="loading"
       :data="tableData"
       style="width: 100%">
       <el-table-column
@@ -88,9 +89,10 @@
   <div class="page">
     <el-pagination
     @current-change='onChangePage'
+    :disabled = 'loading'
       background
       layout="prev, pager, next"
-      :total="1000">
+      :total="total_count">
     </el-pagination>
   </div>
 
@@ -111,7 +113,9 @@ export default {
         end_pubdate: '' // 截至时间
       },
       rangedate: '',
-      tableData: [], // 文章列表数据
+      tableData: [], // 文章列表默认返回数据
+      total_count: '', // 文章列表总条数
+      loading: true,
       articleStatus: [
         {
           value: '',
@@ -142,6 +146,7 @@ export default {
   methods: {
     // 获取文章列表
     loadArticle (page = 1) {
+      this.loading = true // 打开loading区域加载
       const token = window.localStorage.getItem('user-token')
       this.$axios({
         method: 'get',
@@ -156,8 +161,11 @@ export default {
       }).then(res => {
         console.log(res, '请求成功！')
         this.tableData = res.data.data.results
+        this.total_count = res.data.data.total_count
+        this.loading = false
       }).catch(err => {
         console.log(err, '请求失败！')
+        this.loading = false
       })
     },
     // 点击分页
