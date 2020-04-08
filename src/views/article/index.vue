@@ -77,9 +77,9 @@
       <el-table-column
         prop="address"
         label="操作">
-        <template>
-           <el-button type="primary" icon="el-icon-edit" circle></el-button>
-           <el-button type="danger" icon="el-icon-delete" circle></el-button>
+        <template slot-scope="scope">
+           <el-button type="primary" icon="el-icon-edit" circle ></el-button>
+           <el-button type="danger" icon="el-icon-delete" circle @click="onDelete(scope.row.id)"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -192,6 +192,17 @@ export default {
     // 点击分页
     onChangePage (value) {
       this.loadArticle(value)
+    },
+    // 删除文章
+    onDelete (articleID) {
+      this.$axios({
+        url: `/articles/${articleID}`,
+        method: 'delete'
+      }).then(res => {
+        console.log(res, '请求成功!')
+      }).catch(err => {
+        console.log(err, '请求失败')
+      })
     }
 
   }
