@@ -119,6 +119,7 @@ export default {
       total_count: '', // 文章列表总条数
       loading: true,
       channels: [], // 频道列表数据
+      page: '', // 当前页码
       articleStatus: [
         {
           value: '',
@@ -191,15 +192,20 @@ export default {
     },
     // 点击分页
     onChangePage (value) {
+      this.page = value
       this.loadArticle(value)
     },
     // 删除文章
     onDelete (articleID) {
       this.$axios({
         url: `/articles/${articleID}`,
-        method: 'delete'
+        method: 'delete',
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem('user-token')}`
+        }
       }).then(res => {
-        console.log(res, '请求成功!')
+        console.log(res, '删除成功!')
+        this.loadArticle(this.page)
       }).catch(err => {
         console.log(err, '请求失败')
       })

@@ -11,7 +11,12 @@ import JsonBig from 'json-bigint'
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0' // 请求基地址
 axios.defaults.transformResponse = [function (data) {
   // 在这里操作请求响应数据
-  return JsonBig.parse(data)
+  try {
+    return JsonBig.parse(data)
+  } catch (err) {
+    console.log(err)
+    return {}
+  }
 }]
 require('promise.prototype.finally').shim()
 Vue.config.productionTip = false
