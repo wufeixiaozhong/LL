@@ -10,7 +10,11 @@
     <el-input v-model="article.title"></el-input>
   </el-form-item>
     <el-form-item label="内容">
-    <el-input type="textarea" v-model="article.content"></el-input>
+    <quill-editor
+    ref="myQuillEditor"
+    v-model="article.content"
+    :options="editorOption"
+  />
   </el-form-item>
   <el-form-item label="频道">
     <el-select v-model="article.channel_id" placeholder="请选择频道">
@@ -28,8 +32,18 @@
 </template>
 
 <script>
+// 引入富文本编辑器样式
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+// 引入富文本编辑器核心组件
+import { quillEditor } from 'vue-quill-editor'
+
 export default {
   name: 'publish',
+  components: {
+    quillEditor
+  },
   data () {
     return {
       article: {
