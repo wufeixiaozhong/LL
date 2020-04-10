@@ -154,13 +154,9 @@ export default {
     // 获取文章列表
     loadArticle (page = 1) {
       this.loading = true // 打开loading区域加载
-      const token = window.localStorage.getItem('user-token')
       this.$axios({
         method: 'get',
         url: '/articles',
-        headers: {
-          Authorization: `Bearer ${token}`
-        },
         params: {
           page,
           status: this.filterForm.status,
@@ -199,10 +195,7 @@ export default {
     onDelete (articleID) {
       this.$axios({
         url: `/articles/${articleID}`,
-        method: 'delete',
-        headers: {
-          Authorization: `Bearer ${window.localStorage.getItem('user-token')}`
-        }
+        method: 'delete'
       }).then(res => {
         console.log(res, '删除成功!')
         this.loadArticle(this.page)
