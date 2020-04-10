@@ -18,8 +18,8 @@
     </el-select>
   </el-form-item>
   <el-form-item>
-    <el-button type="primary" @click="onSubmit">发布文章</el-button>
-    <el-button>存为草稿</el-button>
+    <el-button type="primary" @click="onSubmit(false)">发布文章</el-button>
+    <el-button @click="onSubmit(true)">存为草稿</el-button>
   </el-form-item>
 </el-form>
 </div>
@@ -36,7 +36,7 @@ export default {
         title: '', // 文章标题
         content: '', // 文章内容
         cover: { // 封面
-          type: '',
+          type: 0,
           images: []
         },
         channel_id: '' // 文章所属频道id
@@ -60,8 +60,23 @@ export default {
         console.log(err, '请求失败！')
       })
     },
-    onSubmit () {
-      console.log('submit!')
+    onSubmit (draft) {
+      const token = window.localStorage.getItem('user-token')
+      this.$axios({
+        method: 'post',
+        url: '/articles',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        params: {
+          draft
+        },
+        data: this.article
+      }).then(res => {
+        console.log(res, '发布成功')
+      }).catch(err => {
+        console.log(err, '发布失败')
+      })
     }
   }
 }
