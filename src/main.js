@@ -22,6 +22,8 @@ axios.defaults.transformResponse = [function (data) {
 // 添加一个请求拦截器
 axios.interceptors.request.use(function (config) {
   // Do something before request is sent
+  console.log('请求拦截器', config)
+
   const token = window.localStorage.getItem('user-token')
   if (token) {
     config.headers.Authorization = `Bearer ${token}` // 统一添加token

@@ -13,13 +13,10 @@
     <quill-editor
     ref="myQuillEditor"
     v-model="article.content"
-    :options="editorOption"
   />
   </el-form-item>
   <el-form-item label="频道">
-    <el-select v-model="article.channel_id" placeholder="请选择频道">
-      <el-option :label="channel.name" :value="channel.id" v-for="channel in channels" :key='channel.id'></el-option>
-    </el-select>
+   <channel-select v-model="article.channel_id"></channel-select>
   </el-form-item>
   <el-form-item>
     <el-button type="primary" @click="onSubmit(false)">发布文章</el-button>
@@ -38,11 +35,12 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 // 引入富文本编辑器核心组件
 import { quillEditor } from 'vue-quill-editor'
-
+import ChannelSelect from '../../components/channel-select'
 export default {
   name: 'publish',
   components: {
-    quillEditor
+    quillEditor,
+    ChannelSelect
   },
   data () {
     return {
@@ -54,26 +52,13 @@ export default {
           images: []
         },
         channel_id: '' // 文章所属频道id
-      },
-      channels: [] // 所有频道
+      }
     }
   },
   created () {
-    // 获取频道列表数据
-    this.loadChannels()
+
   },
   methods: {
-    loadChannels () {
-      this.$axios({
-        method: 'get',
-        url: '/channels'
-      }).then(res => {
-        console.log(res, '请求成功！')
-        this.channels = res.data.data.channels
-      }).catch(err => {
-        console.log(err, '请求失败！')
-      })
-    },
     onSubmit (draft) {
       this.$axios({
         method: 'post',
