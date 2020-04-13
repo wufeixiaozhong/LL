@@ -56,7 +56,9 @@ export default {
     }
   },
   created () {
-
+    if (this.$route.params.articleID) {
+      this.loadArticle()
+    }
   },
   methods: {
     onSubmit (draft) {
@@ -71,6 +73,17 @@ export default {
         console.log(res, '发布成功')
       }).catch(err => {
         console.log(err, '发布失败')
+      })
+    },
+    loadArticle () {
+      this.$axios({
+        url: '/articles/' + this.$route.params.articleID,
+        method: 'get'
+      }).then(res => {
+        console.log(res, '获取指定文章成功')
+        this.article = res.data.data
+      }).catch(err => {
+        console.log(err, '获取指定文章失败')
       })
     }
   }
