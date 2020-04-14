@@ -43,7 +43,8 @@
         </el-header>
         <!-- 主要区域容器 -->
         <el-main>
-          <router-view></router-view>
+          <!-- 二级路由容器 -->
+          <router-view :key='$route.path'></router-view>
         </el-main>
       </el-container>
     </el-container>
