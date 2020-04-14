@@ -62,6 +62,14 @@ export default {
   },
   methods: {
     onSubmit (draft) {
+      if (this.$route.params.articleID) {
+        this.updataArticle(draft)
+      } else {
+        this.addArticle(draft)
+      }
+    },
+    // 添加文章
+    addArticle (draft) {
       this.$axios({
         method: 'post',
         url: '/articles',
@@ -71,10 +79,33 @@ export default {
         data: this.article
       }).then(res => {
         console.log(res, '发布成功')
+        this.$router.push('/article')
       }).catch(err => {
         console.log(err, '发布失败')
       })
     },
+    // 编辑文章
+    updataArticle (draft) {
+      this.$axios({
+        url: '/articles/' + this.$route.params.articleID,
+        method: 'PUT',
+        data: this.article
+      }).then(res => {
+        console.log(res, '编辑文章成功')
+        this.$message({
+          type: 'success',
+          message: '更新成功'
+        })
+        this.$router.push('/article')
+      }).catch(err => {
+        console.log(err, '编辑文章失败')
+        this.$message({
+          type: 'error',
+          message: '更新失败'
+        })
+      })
+    },
+    // 获取指定文章
     loadArticle () {
       this.$axios({
         url: '/articles/' + this.$route.params.articleID,
