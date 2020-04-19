@@ -44,7 +44,8 @@ const routes = [
       },
       {
         path: '/comment/:articleID',
-        component: CommentDetail
+        component: CommentDetail,
+        props: true
       }
     ]
   },
