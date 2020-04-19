@@ -8,6 +8,7 @@ import Publish from '@/views/publish'
 import Comment from '@/views/comment'
 import Material from '@/views/material'
 import Nprogress from 'nprogress'
+import CommentDetail from '@/views/comment-detail'
 Vue.use(VueRouter)
 
 const routes = [
@@ -40,6 +41,10 @@ const routes = [
       {
         path: '/material',
         component: Material
+      },
+      {
+        path: '/comment/:articleID',
+        component: CommentDetail
       }
     ]
   },
